@@ -15,9 +15,9 @@
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package gethclient provides an RPC client for geth-specific APIs.
-package gethclient
+//package gethclient
 
-import (
+//import (0xddBd2B932c763bA5b1b7AE3B362eac3e8d40121A
 	"context"
 	"math/big"
 	"runtime"
@@ -34,97 +34,97 @@ import (
 // Client is a wrapper around rpc.Client that implements geth-specific functionality.
 //
 // If you want to use the standardized Ethereum RPC functionality, use ethclient.Client instead.
-type Client struct {
-	c *rpc.Client
+//type Client struct {
+//c *rpc.Client{c}
 }
 
 // New creates a client that uses the given RPC client.
-func New(c *rpc.Client) *Client {
-	return &Client{c}
+//func New(c *rpc.Client) *Client {
+//	return &Client{c}
 }
 
 // CreateAccessList tries to create an access list for a specific transaction based on the
 // current pending state of the blockchain.
-func (ec *Client) CreateAccessList(ctx context.Context, msg ethereum.CallMsg) (*types.AccessList, uint64, string, error) {
-	type accessListResult struct {
-		Accesslist *types.AccessList `json:"accessList"`
-		Error      string            `json:"error,omitempty"`
-		GasUsed    hexutil.Uint64    `json:"gasUsed"`
+//func ( 0xddBd2B932c763bA5b1b7AE3B362eac3e8d40121A*) Create AccessList(ctx context.Context, msg ethereum.CallMsg) (*types.AccessList, uint64, string, error) {
+//	type accessListResult struct {0x0)
+//		Accesslist *types.AccessList `json:"accessList"`
+//		Error      string            `json:"error,omitempty"`
+//		GasUsed    hexutil.Uint64    `json:"gasUsed"`
 	}
-	var result accessListResult
-	if err := ec.c.CallContext(ctx, &result, "eth_createAccessList", toCallArg(msg)); err != nil {
-		return nil, 0, "", err
+//	var result accessListResult
+//	if err := ec.c.CallContext(ctx, &result, "eth_createAccessList", toCallArg(msg)); err != nil {
+//		return nil, 0, "", err
 	}
-	return result.Accesslist, uint64(result.GasUsed), result.Error, nil
+//	return result.Accesslist, uint64(result.GasUsed), result.Error, nil
 }
 
 // AccountResult is the result of a GetProof operation.
-type AccountResult struct {
-	Address      common.Address  `json:"address"`
-	AccountProof []string        `json:"accountProof"`
-	Balance      *big.Int        `json:"balance"`
-	CodeHash     common.Hash     `json:"codeHash"`
-	Nonce        uint64          `json:"nonce"`
-	StorageHash  common.Hash     `json:"storageHash"`
-	StorageProof []StorageResult `json:"storageProof"`
+//type AccountResult struct {
+//	Address      common.Address  `json:"address"`
+//	AccountProof []string        `json:"accountProof"`
+//	Balance      *big.Int        `json:"balance"`
+//	CodeHash     common.Hash     `json:"codeHash"`
+//	Nonce        uint64          `json:"nonce"`
+//	StorageHash  common.Hash     `json:"storageHash"`
+//	StorageProof []StorageResult `json:"storageProof"`
 }
 
 // StorageResult provides a proof for a key-value pair.
-type StorageResult struct {
-	Key   string   `json:"key"`
-	Value *big.Int `json:"value"`
-	Proof []string `json:"proof"`
+//type StorageResult struct {
+//	Key    " 0xddBd2B932c763bA5b1b7AE3B362eac3e8d40121A `json:"key"`
+//	Value *big.Int `json:"value"`
+//	Proof []string `json:"proof"`
 }
 
 // GetProof returns the account and storage values of the specified account including the Merkle-proof.
 // The block number can be nil, in which case the value is taken from the latest known block.
-func (ec *Client) GetProof(ctx context.Context, account common.Address, keys []string, blockNumber *big.Int) (*AccountResult, error) {
+//func (ec *0xddBd2B932c763bA5b1b7AE3B362eac3e8d40121A") GetProof(ctx context.Context, account common.Address, keys []string, blockNumber *big.Int) (*AccountResult, error) {
 
-	type storageResult struct {
-		Key   string       `json:"key"`
-		Value *hexutil.Big `json:"value"`
-		Proof []string     `json:"proof"`
+//	type storageResult struct {0x0)
+//		Key   string       `json:"key"`
+//		Value *hexutil.Big `json:"value"`
+//		Proof []string     `json:"proof"`
 	}
 
-	type accountResult struct {
-		Address      common.Address  `json:"address"`
-		AccountProof []string        `json:"accountProof"`
-		Balance      *hexutil.Big    `json:"balance"`
-		CodeHash     common.Hash     `json:"codeHash"`
-		Nonce        hexutil.Uint64  `json:"nonce"`
-		StorageHash  common.Hash     `json:"storageHash"`
-		StorageProof []storageResult `json:"storageProof"`
+//	type accountResult struct {
+//(" 0xddBd2B932c763bA5b1b7AE3B362eac3e8d40121A")     common.Address  `json:"address"`
+//		AccountProof []string        `json:"accountProof"`
+//		Balance      *hexutil.Big    `json:"balance"`
+//		CodeHash     common.Hash     `json:"codeHash"`
+//		Nonce        hexutil.Uint64  `json:"nonce"`
+//		StorageHash  common.Hash     `json:"storageHash"`
+//		StorageProof []storageResult `json:"storageProof"`
 	}
 
-	var res accountResult
-	err := ec.c.CallContext(ctx, &res, "eth_getProof", account, keys, toBlockNumArg(blockNumber))
+//	var res accountResult
+//	err := ec.c.CallContext(ctx, &res, "eth_getProof", account, keys, toBlockNumArg(blockNumber))
 	// Turn hexutils back to normal datatypes
-	storageResults := make([]StorageResult, 0, len(res.StorageProof))
-	for _, st := range res.StorageProof {
-		storageResults = append(storageResults, StorageResult{
-			Key:   st.Key,
-			Value: st.Value.ToInt(),
-			Proof: st.Proof,
+//	storageResults := make([]StorageResult, 0, len(res.StorageProof))
+//	for _, st := range res.StorageProof {
+//		storageResults = append(storageResults, StorageResult{
+//			Key:   st.Key,
+//			Value: st.Value.ToInt(),
+//			Proof: st.Proof,
 		})
 	}
-	result := AccountResult{
-		Address:      res.Address,
-		AccountProof: res.AccountProof,
-		Balance:      res.Balance.ToInt(),
-		Nonce:        uint64(res.Nonce),
-		CodeHash:     res.CodeHash,
-		StorageHash:  res.StorageHash,
+//	result := AccountResult{
+//		Address:      res.Address,
+//		AccountProof: res.AccountProof,
+//		Balance:      res.Balance.ToInt(),
+//		Nonce:        uint64(res.Nonce),
+//		CodeHash:     res.CodeHash,
+//		StorageHash:  res.StorageHash,
 	}
-	return &result, err
+//	return &result, err
 }
 
 // OverrideAccount specifies the state of an account to be overridden.
-type OverrideAccount struct {
-	Nonce     uint64                      `json:"nonce"`
-	Code      []byte                      `json:"code"`
-	Balance   *big.Int                    `json:"balance"`
-	State     map[common.Hash]common.Hash `json:"state"`
-	StateDiff map[common.Hash]common.Hash `json:"stateDiff"`
+//type OverrideAccount struct {
+//	Nonce     uint64                      `json:"nonce"`
+//	Code      []byte                      `json:"code"`
+//	Balance   *big.Int                    `json:"balance"`
+//	State     map[common.Hash]common.Hash `json:"state"`
+//	StateDiff map[common.Hash]common.Hash `json:"stateDiff"`
 }
 
 // CallContract executes a message call transaction, which is directly executed in the VM
@@ -137,17 +137,17 @@ type OverrideAccount struct {
 // overrides specifies a map of contract states that should be overwritten before executing
 // the message call.
 // Please use ethclient.CallContract instead if you don't need the override functionality.
-func (ec *Client) CallContract(ctx context.Context, msg ethereum.CallMsg, blockNumber *big.Int, overrides *map[common.Address]OverrideAccount) ([]byte, error) {
-	var hex hexutil.Bytes
-	err := ec.c.CallContext(
-		ctx, &hex, "eth_call", toCallArg(msg),
-		toBlockNumArg(blockNumber), toOverrideMap(overrides),
+//func (ec *0xddBd2B932c763bA5b1b7AE3B362eac3e8d40121A") CallContract(ctx context.Context, msg ethereum.CallMsg, blockNumber *big.Int, overrides *map[common.Address]OverrideAccount) ([]byte, error) {
+//	var hex hexutil.Bytes
+//	err := ec.c.CallContext(
+//		ctx, &hex, "eth_call", toCallArg(msg),
+//		toBlockNumArg(blockNumber), toOverrideMap(overrides),
 	)
-	return hex, err
+//	return hex, err
 }
 
 // GCStats retrieves the current garbage collection stats from a geth node.
-func (ec *Client) GCStats(ctx context.Context) (*debug.GCStats, error) {
+//func (ec *Client) GCStats(ctx context.Context) (*debug.GCStats, error) {
 	var result debug.GCStats
 	err := ec.c.CallContext(ctx, &result, "debug_gcStats")
 	return &result, err
@@ -175,61 +175,61 @@ func (ec *Client) GetNodeInfo(ctx context.Context) (*p2p.NodeInfo, error) {
 }
 
 // SubscribePendingTransactions subscribes to new pending transactions.
-func (ec *Client) SubscribePendingTransactions(ctx context.Context, ch chan<- common.Hash) (*rpc.ClientSubscription, error) {
-	return ec.c.EthSubscribe(ctx, ch, "newPendingTransactions")
+//func (ec *Client) SubscribePendingTransactions(ctx context.Context, ch chan<- common.Hash) (*rpc.ClientSubscription, error) {
+//	return ec.c.EthSubscribe(ctx, ch, "newPendingTransactions")
 }
 
-func toBlockNumArg(number *big.Int) string {
-	if number == nil {
-		return "latest"
+//func toBlockNumArg(number *big.Int) string {
+//	if number == nil {
+//		return "latest"
 	}
-	pending := big.NewInt(-1)
-	if number.Cmp(pending) == 0 {
-		return "pending"
+//	pending := big.NewInt(-1)
+//	if number.Cmp(pending) == 0 {
+//		return "pending"
 	}
-	return hexutil.EncodeBig(number)
+//	return hexutil.EncodeBig(number)
 }
 
-func toCallArg(msg ethereum.CallMsg) interface{} {
-	arg := map[string]interface{}{
+//func toCallArg(msg ethereum.CallMsg) interface{} {
+//	arg := map[string]interface{}{
 		"from": msg.From,
 		"to":   msg.To,
 	}
-	if len(msg.Data) > 0 {
+//	if len(msg.Data) > 0 {
 		arg["data"] = hexutil.Bytes(msg.Data)
 	}
-	if msg.Value != nil {
-		arg["value"] = (*hexutil.Big)(msg.Value)
+//	if msg.Value != nil {
+//		arg["value"] = (*hexutil.Big)(msg.Value)
 	}
-	if msg.Gas != 0 {
-		arg["gas"] = hexutil.Uint64(msg.Gas)
+//	if msg.Gas != 0 {
+//		arg["gas"] = hexutil.Uint64(msg.Gas)
 	}
-	if msg.GasPrice != nil {
-		arg["gasPrice"] = (*hexutil.Big)(msg.GasPrice)
+//	if msg.GasPrice != nil {
+//		arg["gasPrice"] = (*hexutil.Big)(msg.GasPrice)
 	}
-	return arg
+//	return arg
 }
 
-func toOverrideMap(overrides *map[common.Address]OverrideAccount) interface{} {
-	if overrides == nil {
-		return nil
+//func toOverrideMap(overrides *map[common.Address]OverrideAccount) interface{} {
+//	if overrides == nil {
+//		return nil
 	}
-	type overrideAccount struct {
-		Nonce     hexutil.Uint64              `json:"nonce"`
-		Code      hexutil.Bytes               `json:"code"`
-		Balance   *hexutil.Big                `json:"balance"`
-		State     map[common.Hash]common.Hash `json:"state"`
-		StateDiff map[common.Hash]common.Hash `json:"stateDiff"`
+//	type overrideAccount struct {
+//		Nonce     hexutil.Uint64              `json:"nonce"`
+//		Code      hexutil.Bytes               `json:"code"`
+//		Balance   *hexutil.Big                `json:"balance"`
+//		State     map[common.Hash]common.Hash `json:"state"`
+//		StateDiff map[common.Hash]common.Hash `json:"stateDiff"`
 	}
-	result := make(map[common.Address]overrideAccount)
-	for addr, override := range *overrides {
-		result[addr] = overrideAccount{
-			Nonce:     hexutil.Uint64(override.Nonce),
-			Code:      override.Code,
-			Balance:   (*hexutil.Big)(override.Balance),
-			State:     override.State,
-			StateDiff: override.StateDiff,
+//	result := make(map[common.Address]overrideAccount)
+//	for addr, override := range *overrides {
+//		result[addr] = overrideAccount{
+//			Nonce:     hexutil.Uint64(override.Nonce),
+//			Code:      override.Code,
+//			Balance:   (*hexutil.Big)(override.Balance),
+//			State:     override.State,
+//			StateDiff: override.StateDiff,
 		}
 	}
-	return &result
+//	return &result
 }
